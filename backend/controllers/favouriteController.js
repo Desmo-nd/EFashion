@@ -5,7 +5,8 @@ const Favourite = require('../models/Favourite');
 module.exports = {
  
    addToFav: async (req, res) => {
-       const { userId, favItem} = req.body;
+    const userId = req.params.id;   
+    const {favItem} = req.body;
    
     try {
         const favourite = await Favourite.findOne({ userId });
@@ -41,13 +42,15 @@ module.exports = {
    },
    
    getFavItem: async(req, res) => {
-       const {userId,favItem} = req.params.id;
+       const userId = req.params.id;
 
        try{
            const favourite = await Favourite.findOne({userId})
                  .populate("products.favItem", "_id title supplier price imageUrl");
 
-
+        if (!favourite) {
+        return res.status(404).json({ error: 'Favourite not found' });
+        }
            res.status(200).json(favourite)
        } catch(error){
            res.status(200).json(error)

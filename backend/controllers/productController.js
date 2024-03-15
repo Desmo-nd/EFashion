@@ -1,7 +1,9 @@
-const Product =require('../models/Products');
+const Product = require('../models/Products');
+
 
 module.exports = {
-  createProduct : async (req, res) => {
+    
+createProduct: async (req, res) => {
     const userId = req.params.id;
 
     try {
@@ -10,14 +12,21 @@ module.exports = {
             price,
             description,
             category,
-            product_location
+            product_location,
+            
         } = req.body;
 
         const supplier = userId; // Assuming the supplier is derived from userId
 
-        const imageUrl = req.file ? req.file.path : '';
-        console.log(req.file)
-        console.log(req.body)
+        if (!req.file) {
+            return res.status(400).json({ error: 'Image file is required' });
+          }
+
+        const imageUrl = req.file.location
+        //`https://s3.amazonaws.com/bucketeer-897a58fa-5a33-4dbf-aa4a-7ab2e1c7ea29/${new Date().toString()}-${req.file.originalname}`;
+        console.log(imageUrl)
+
+    
         const newProduct = new Product({
             userId,
             title,
@@ -29,16 +38,15 @@ module.exports = {
             category,
         });
 
-        const savedProduct = await newProduct.save();
+        await newProduct.save();
+        res.status(201).json(newProduct);
 
-        res.status(201).json(savedProduct);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message || "Failed to create a product" });
     }
 },
-
-
+            
     getAllProducts: async (req, res) => {
         try {
             const products = await Product.find().sort({createdAt: -1});
@@ -46,8 +54,8 @@ module.exports = {
         } catch (error) { 
             res.status(500).json("failed to get th products");
         }
-    },  
-    
+    }, 
+        
     getProduct: async (req, res) => {
         const userId = req.params.id;
         console.log('User ID:', userId);
@@ -66,9 +74,6 @@ module.exports = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-    
-
-
     
     searchProduct: async (req, res) => {
         try {
