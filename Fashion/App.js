@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 import BottomTabNavigation from './navigation/BottomTabNavigation';
 import {
+    FrontPage,
     Cart, 
     NewRivals, 
     ProductDetails, 
@@ -56,10 +57,15 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen 
+      <Stack.Screen
+        name="FrontPage"
+        component={FrontPage}
+        options={{headerShown:false}}
+      />
+      <Stack.Screen 
         name="Bottom Navigation" 
         component={BottomTabNavigation}
-        options={{headerShown:false }}
+        options={{headerShown:false }}hg
      />  
 
       <Stack.Screen 

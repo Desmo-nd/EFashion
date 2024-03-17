@@ -11,7 +11,7 @@ import SignUp from "./SignUp";
 import AddProduct from "./AddProduct";
 import ShopProducts from "./ShopProducts";
 import CategoryScreen from "./CategoryScreen";
-// import OpeningScreen from "./OpeningScreen";
+import FrontPage from "./FrontPage";
 import CreateShop from "./CreateShop";
 import ShopDetails from "./ShopDetails";
 import SupplierOrders from "./SupplierOrders";
@@ -32,7 +32,7 @@ export {
     AddProduct,
     ShopProducts,
     CategoryScreen,
-    // OpeningScreen
+    FrontPage,
     CreateShop, 
     ShopDetails,
     SupplierOrders
